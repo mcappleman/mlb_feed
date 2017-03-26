@@ -5,8 +5,10 @@ var Game = require('../models/Game');
 var TeamService = require('./TeamService');
 
 module.exports = {
-	create: create,
-	findOrCreate: findOrCreate
+	create,
+	findMonth,
+	findOrCreate,
+	findTeamMonth
 }
 
 function create(game) {
@@ -46,6 +48,31 @@ function create(game) {
 
 }
 
+function findMonth(year, month) {
+
+	var startDate = new Date(2017,0,1,23,59,59,999);
+	startDate.setFullYear(year);
+	startDate.setMonth(month-1);
+	startDate.setDate(0);
+
+	var endDate = new Date(2017,0,1,0,0,0,0);
+	endDate.setFullYear(year);
+	endDate.setMonth(month);
+	endDate.setDate(1);
+
+	var query = {
+		date: { $gt: startDate, $lt: endDate }
+	}
+
+	return Game.find(query).populate('home_team away_team')
+	.then((gameList) => {
+
+		return gameList;
+
+	});
+
+}
+
 function findOrCreate(game) {
 
 	return Game.findOne({ gd2_id: game.id })
@@ -58,6 +85,37 @@ function findOrCreate(game) {
 		}
 
 		return data;
+
+	});
+
+}
+
+function findTeamMonth(teamAbbrev, year, month) {
+
+	var startDate = new Date(2017,0,1,23,59,59,999);
+	startDate.setFullYear(year);
+	startDate.setMonth(month-1);
+	startDate.setDate(0);
+
+	var endDate = new Date(2017,0,1,0,0,0,0);
+	endDate.setFullYear(year);
+	endDate.setMonth(month);
+	endDate.setDate(1);
+
+	return TeamService.findOne({ abbrev: teamAbbrev })
+	.then((team) => {
+
+		var query = { 
+			$or: [{ home_team: team._id }, { away_team: team._id }],
+			date: { $gt: startDate, $lt: endDate }
+		}
+
+		return Game.find(query).populate('home_team away_team')
+
+	})
+	.then((gameList) => {
+
+		return gameList;
 
 	});
 

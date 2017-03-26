@@ -4,13 +4,27 @@ var request = require('request');
 var Team = require('../models/Team');
 
 module.exports = {
-	create: create,
-	findOrCreate: findOrCreate
+	create,
+	find,
+	findOne,
+	findOrCreate
 }
 
 function create(team) {
 
 	return Team.create(team);
+
+}
+
+function find(query) {
+
+	return Team.find(query);
+
+}
+
+function findOne(query) {
+
+	return Team.findOne(query);
 
 }
 

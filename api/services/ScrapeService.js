@@ -20,8 +20,6 @@ function scrapeYear(year) {
 
 	}
 
-	console.log(MLB_FEED);
-
 	var startDate = new Date(MLB_FEED.years[year].startDate);
 	var endDate = new Date(MLB_FEED.years[year].endDate);
 	var currentDate = startDate;
@@ -36,6 +34,8 @@ function scrapeYear(year) {
 				return res({});
 			}
 
+			console.log(currentDate.toDateString());
+
 			return getGamesForDay(currentDate)
 			.then((games) => {
 
@@ -47,6 +47,11 @@ function scrapeYear(year) {
 					iter();
 
 					function iter() {
+
+						if (!Array.isArray(games)) {
+							console.log('All Star Break?', games);
+							return resolve({});
+						}
 
 						if (index >= games.length) {
 							return resolve(gameList);

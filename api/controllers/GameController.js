@@ -16,6 +16,24 @@ module.exports = GameController;
 
 function dailyScrape(req, res) {
 
+	return ScrapeService.dailyScrape()
+	.then((data) => {
+
+		res.send({
+			status: 200,
+			message: 'Got that data'
+		});
+
+	})
+	.catch((err) => {
+
+		res.send({
+			status: 500,
+			error: err
+		});
+
+	});
+
 }
 
 function getMonth(req, res) {

@@ -7,7 +7,31 @@ var TeamService = require('./TeamService');
 var GameService = require('./GameService');
 
 module.exports = {
-	scrapeYear: scrapeYear
+	dailyScrape,
+	scrapeYear
+}
+
+function dailyScrape() {
+
+	var startDate = new Date();
+
+	startDate.setDate(startDate.getDate()-1);
+
+	if (startDate <= new Date(MLB_FEED.years[startDate.getFullYear()].startDate)) {
+
+		return {}
+
+	}
+
+	return getGamesForDay(startDate)
+	.then(() => {
+
+		startDate.setDate(startDate.getDate()+1);
+
+		if (startDate > new Date()) {}
+
+	})
+
 }
 
 function scrapeYear(year) {
@@ -24,63 +48,26 @@ function scrapeYear(year) {
 	var endDate = new Date(MLB_FEED.years[year].endDate);
 	var currentDate = startDate;
 
-	return new Promise((res, rej) => {
+	return new Promise((resolve, reject) => {
 
 		iterateDates();
 
 		function iterateDates() {
 
 			if (currentDate > endDate) {
-				return res({});
+				return resolve({});
 			}
 
 			console.log(currentDate.toDateString());
 
 			return getGamesForDay(currentDate)
-			.then((games) => {
-
-				return new Promise((resolve, reject) => {
-
-					var index = 0;
-					var gameList = [];
-
-					iter();
-
-					function iter() {
-
-						if (!Array.isArray(games)) {
-							console.log('All Star Break?', games);
-							return resolve({});
-						}
-
-						if (index >= games.length) {
-							return resolve(gameList);
-						}
-
-						return GameService.findOrCreate(games[index])
-						.then((game) => {
-
-							index++;
-							gameList.push(game);
-							iter();
-
-						})
-						.catch((err) => {
-							return reject(err);
-						});
-
-					}
-
-				});
-
-			})
 			.then(() => {
 				currentDate.setDate(currentDate.getDate() + 1);
 				iterateDates();
 			})
 			.catch((err) => {
 				console.log('Error!!!', err);
-				return rej(err)
+				return reject(err)
 			});
 
 		}
@@ -119,6 +106,43 @@ function getGamesForDay(date) {
 			if (error) { return reject(error) }
 
 			resolve(body.data.games.game)
+
+		});
+
+	})
+	.then((games) => {
+
+		return new Promise((resolve, reject) => {
+
+			var index = 0;
+			var gameList = [];
+
+			iter();
+
+			function iter() {
+
+				if (!Array.isArray(games)) {
+					console.log('All Star Break?', games);
+					return resolve({});
+				}
+
+				if (index >= games.length) {
+					return resolve(gameList);
+				}
+
+				return GameService.findOrCreate(games[index])
+				.then((game) => {
+
+					index++;
+					gameList.push(game);
+					iter();
+
+				})
+				.catch((err) => {
+					return reject(err);
+				});
+
+			}
 
 		});
 

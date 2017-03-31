@@ -14,23 +14,29 @@ module.exports = {
 function dailyScrape() {
 
 	var startDate = new Date();
+	var startSeason = new Date(MLB_FEED.years[startDate.getFullYear()].startDate);
+	var endSeason = new Date(MLB_FEED.years[startDate.getFullYear()].endDate);
 
 	startDate.setDate(startDate.getDate()-1);
 
-	if (startDate <= new Date(MLB_FEED.years[startDate.getFullYear()].startDate)) {
+	if (startDate < startSeason || startDate > endSeason) {
 
-		return {}
+		return new Promise((resolve, reject) => {resolve()});
 
 	}
 
 	return getGamesForDay(startDate)
-	.then(() => {
+	.then((games) => {
 
 		startDate.setDate(startDate.getDate()+1);
 
-		if (startDate > new Date()) {}
+		if (startDate > startSeason && startDate <= endSeason) {
 
-	})
+			return getGamesForDay(startDate);
+
+		}
+
+	});
 
 }
 

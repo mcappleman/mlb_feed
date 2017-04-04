@@ -9,6 +9,11 @@ require('dotenv').config();
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DB_URL);
 
+app.use((req, res, next) => {
+	console.log(new Date(), req.method, req.url);
+	next();
+});
+
 require('./api/routes/TeamRoutes')(app);
 require('./api/routes/GameRoutes')(app);
 

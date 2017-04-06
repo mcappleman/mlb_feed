@@ -10,6 +10,7 @@ var gameSchema = new Schema({
 	away_team: {type: Schema.Types.ObjectId, ref: 'Team'},
 	home_runs: Number,
 	away_runs: Number,
+	status: String,
 	gd2_id: String
 });
 

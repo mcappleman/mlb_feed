@@ -40,6 +40,7 @@ function create(game) {
 			away_team: awayTeam._id,
 			home_runs: 0,
 			away_runs: 0,
+			status: game.status.status || 'Preview',
 			gd2_id: game.id
 		}
 
@@ -224,8 +225,16 @@ function update(game) {
 	return Game.findOne({ gd2_id: game.id })
 	.then((gameData) => {
 
-		gameData.home_runs = game.home_runs;
-		gameData.away_runs = game.away_runs;
+		var home_runs, away_runs;
+
+		if (game.linescore) {
+
+			gameData.home_runs = Number(game.linescore.r.home);
+			gameData.away_runs = Number(game.linescore.r.away);
+
+		}
+
+		gameData.status = game.status.status || 'Preview';
 
 		return gameData.save();
 

@@ -107,7 +107,7 @@ function findOrCreate(game) {
 
 		}
 
-		return data;
+		return update(game);
 
 	});
 
@@ -214,6 +214,20 @@ function getGamesByTeam(teamAbbrev, dateRange) {
 	.then((gameList) => {
 
 		return gameList;
+
+	});
+
+}
+
+function update(game) {
+
+	return Game.findOne({ gd2_id: game.id })
+	.then((gameData) => {
+
+		gameData.home_runs = game.home_runs;
+		gameData.away_runs = game.away_runs;
+
+		return gameData.save();
 
 	});
 

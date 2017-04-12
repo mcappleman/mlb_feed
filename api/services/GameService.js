@@ -237,8 +237,8 @@ function update(game) {
 		}
 
 		gameData.status = game.status.status || 'Preview';
-		gameData.inning = game.status.inning || 0,
-		gameData.top_inning = game.status.top_inning === 'Y',
+		gameData.inning = game.status.inning || 0;
+		gameData.top_inning = game.status.top_inning === 'Y';
 
 		return gameData.save();
 

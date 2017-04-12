@@ -41,6 +41,8 @@ function create(game) {
 			home_runs: 0,
 			away_runs: 0,
 			status: game.status.status || 'Preview',
+			inning: game.status.inning || 0,
+			top_inning: game.status.top_inning === 'Y',
 			gd2_id: game.id
 		}
 
@@ -235,6 +237,8 @@ function update(game) {
 		}
 
 		gameData.status = game.status.status || 'Preview';
+		gameData.inning = game.status.inning || 0,
+		gameData.top_inning = game.status.top_inning === 'Y',
 
 		return gameData.save();
 

@@ -11,6 +11,8 @@ var gameSchema = new Schema({
 	home_runs: Number,
 	away_runs: Number,
 	status: String,
+	inning: Number,
+	top_inning: Boolean,
 	gd2_id: String
 });
 

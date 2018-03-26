@@ -1,8 +1,8 @@
 'use strict'
 
-var express = require('express');
+var express  = require('express');
 var mongoose = require('mongoose');
-var app     = express();
+var app      = express();
 
 require('dotenv').config();
 
@@ -20,3 +20,4 @@ require('./api/routes/GameRoutes')(app);
 app.listen('8082');
 console.log('Magic happens on port 8082');
 exports = module.exports = app;
+

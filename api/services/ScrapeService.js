@@ -42,7 +42,7 @@ function dailyScrape() {
 
 function scrapeYear(year) {
 
-	if (year !== 2017 && year !== 2016) {
+	if (year !== 2017 && year !== 2016 && year !== 2018) {
 
 		var err = new Error('Invalid year. Must be 2017 or 2016 for now.');
 		err.status = 400;

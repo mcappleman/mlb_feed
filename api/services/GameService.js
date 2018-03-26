@@ -33,9 +33,14 @@ function create(game) {
 
 		var dateSplit = game.original_date.split('/');
 		var dateString = `${dateSplit[1]}/${dateSplit[2]}/${dateSplit[0]}`;
+		var gameDate = new Date(`${dateString} ${game.time} ${game.ampm}`);
+
+		if (isNaN(gameDate.getTime())) {
+			gameDate = new Date(`${dateString} ${game.home_time} ${game.ampm}`);
+		}
 
 		var newGame = {
-			date: new Date(`${dateString} ${game.time} ${game.ampm}`),
+			date: gameDate, 
 			home_team: homeTeam._id,
 			away_team: awayTeam._id,
 			home_runs: 0,

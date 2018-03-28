@@ -11,6 +11,7 @@ mongoose.connect(process.env.DB_URL);
 
 app.use((req, res, next) => {
 	console.log(new Date(), req.method, req.url);
+	console.log('Request Headers', JSON.stringify(req.headers));
 	next();
 });
 

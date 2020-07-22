@@ -1,16 +1,16 @@
 {
-  "name"         : "mlb_feed",
-  "version"      : "0.0.1",
-  "description"  : "Get those MLB games and results from gd2.mlb.com",
-  "main"         : "server.js",
-  "author"       : "Matt Cappleman",
-  "repository"   : {
-    "type" : "git"
+  "name": "mlb_feed",
+  "version": "0.0.1",
+  "description": "Get those MLB games and results from gd2.mlb.com",
+  "main": "server.js",
+  "author": "Matt Cappleman",
+  "repository": {
+    "type": "git"
   },
-  "dependencies" : {
-    "express"    : "latest",
-    "request"    : "latest",
-    "mongoose"   : "latest",
-    "dotenv"     : "latest"
+  "dependencies": {
+    "express": "latest",
+    "request": "latest",
+    "mongoose": "latest",
+    "dotenv": "latest"
   }
 }

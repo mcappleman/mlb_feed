@@ -1,6 +1,10 @@
 'use strict'
 
 var years = {
+	'2020': {
+		startDate: '7/23/2020',
+		endDate: '9/28/2020'
+	},
 	'2019': {
 		startDate: '3/28/2019',
 		endDate: '9/30/2019'
